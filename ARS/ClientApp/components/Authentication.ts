@@ -6,7 +6,7 @@ export async function checkCredentials(username:String, password:String) {
 }
 
 export async function isLoggedIn() : Promise<Boolean> {
-    return true;
+    return false;
 }
 
 export async function hasPermission(user:User) : Promise<Boolean> {

@@ -6,7 +6,7 @@ import { User } from '../Model'
 import { UserComponent } from './User'
 import * as auth from '../Authentication';
 
-interface LoginState { username : String|"", password: String|"" }
+interface LoginState { username:String, password:String }
 
 export class Login extends React.Component<RouteComponentProps<{}>, LoginState> {
 
@@ -15,9 +15,9 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginState> 
         this.state = { username : "", password : "" };
     }
 
-    componentWillMount(){
-        this.isLoggedIn();
-    }
+    // componentWillMount(){
+    //     this.isLoggedIn();
+    // }
 
     isLoggedIn(){
         if(auth.isLoggedIn()){
@@ -31,17 +31,21 @@ export class Login extends React.Component<RouteComponentProps<{}>, LoginState> 
         auth.checkCredentials(this.state.username, this.state.password);
     }
 
+    onSignIn(googleUser) {
+        console.log(googleUser)
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+
     public render() {
         return <div>
             <div className="page-header">
                 <h1>Log in to the ARS</h1>
             </div>
-            <div>
-            <label>Username</label>
-            <input type="text" name="username" placeholder="Username" value={`${this.state.username}`}/>
-            <br/>
-            <input type="password" name="password" placeholder="Password"/>
-            </div>
+            <div className="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
     }
 }
